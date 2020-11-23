@@ -1,0 +1,85 @@
+---
+layout: page
+title: R Fundamentals II
+subtitle: Writing data
+---
+
+```{r, include=FALSE}
+source("tools/chunk-options.R")
+# Silently load in the data so the rest of the lesson works
+lu <- read.csv(file="data/indicators2050.csv")
+cities <- read.csv(file="data/cities.csv")
+lu <- merge(lu, cities, by="city_id", all=TRUE)
+lu$hhsize <- lu$population/lu$households
+```
+
+> ## Learning Objectives {.objectives}
+>
+> * To be able to write out data from R
+>
+
+
+## Writing data
+
+At some point, you'll also want to write out data from R. Let's create a subset of our indicator dataset that contains cities of the King county. 
+
+```{r, eval=TRUE}
+luking <- subset(lu, county_name == "King")
+head(luking)
+```
+
+First, we want to round population and employment to integers and household size to 2 decimals:
+
+```{r}
+luking[, c("population", "employment")] <- round(luking[, c("population", "employment")])
+luking$hhsize <- round(luking$hhsize, 2)
+head(luking)
+```
+
+Now we'll use the `write.table` function for writing the `luking` dataset out. It is 
+very similar to the `read.table` function.
+
+```{r, eval=TRUE}
+write.table(luking, file = "lu-King.csv", sep=",")
+```
+
+We can look at the data from a shell terminal to make sure it looks
+OK:
+
+```{r, engine='bash'}
+head lu-King.csv
+```
+
+Hmm, that's not quite what we wanted. Where did all these
+quotation marks come from? Also the row numbers are
+meaningless.
+
+Let's look at the help file to work out how to change this
+behaviour.
+
+```{r, eval=FALSE}
+?write.table
+```
+
+By default R will wrap character vectors with quotation marks
+when writing out to file. It will also write out the row and
+column names.
+
+Let's fix this:
+
+```{r, eval=TRUE}
+write.table(luking, file = "lu-King.csv", sep = ",", 
+            quote = FALSE, row.names = FALSE)
+```
+
+Now lets look at the data again from a shell terminal:
+
+```{r, engine='bash'}
+head lu-King.csv
+```
+
+That looks better!
+
+Analogously to `read.csv`, there is a `write.csv` function that lets you to leave the `sep` argument out as it uses comma by default. 
+
+

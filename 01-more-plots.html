@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>PSRC 2020 R workshop: R Fundamentals II</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">R Fundamentals II</h1></a>
+          <h2 class="subtitle">More plots and writing data</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="learning-objectives"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>To be able to visualize data using simple plots</li>
+</ul>
+</div>
+</section>
+<h2 id="boxplot">Boxplot</h2>
+<p>Let’s bring in a dataset with multiple land use indicators from 2050, and merge it with city names:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">lu &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file=</span><span class="st">&quot;data/indicators2050.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">lu &lt;-<span class="st"> </span><span class="kw">merge</span>(lu, cities, <span class="dt">by=</span><span class="st">&quot;city_id&quot;</span>, <span class="dt">all=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">summary</span>(lu)</a></code></pre></div>
+<pre class="output"><code>    city_id         households       population       employment      
+ Min.   :  1.00   Min.   :     0   Min.   :     0   Min.   :     0.0  
+ 1st Qu.: 41.00   1st Qu.:   474   1st Qu.:  1198   1st Qu.:   309.9  
+ Median : 82.00   Median :  3936   Median :  9952   Median :  2692.5  
+ Mean   : 82.79   Mean   : 15031   Mean   : 35532   Mean   : 20784.0  
+ 3rd Qu.:122.00   3rd Qu.: 13976   3rd Qu.: 33316   3rd Qu.: 13057.7  
+ Max.   :173.00   Max.   :505387   Max.   :982391   Max.   :871244.0  
+  city_name           county_id     county_name       
+ Length:161         Min.   :33.00   Length:161        
+ Class :character   1st Qu.:33.00   Class :character  
+ Mode  :character   Median :53.00   Mode  :character  
+                    Mean   :46.98                     
+                    3rd Qu.:61.00                     
+                    Max.   :61.00                     
+</code></pre>
+<p>Say we want to look at the distribution of the average household sizes by counties. First, create a column for household size:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">lu<span class="op">$</span>hhsize &lt;-<span class="st"> </span>lu<span class="op">$</span>population<span class="op">/</span>lu<span class="op">$</span>households</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">head</span>(lu[<span class="kw">order</span>(lu<span class="op">$</span>hhsize),])</a></code></pre></div>
+<pre class="output"><code>    city_id households   population  employment    city_name county_id
+9         9     505387 982390.65316 871244.0433      Seattle        33
+52       52        112    220.23109     68.0121    Skykomish        33
+76       77       6894  13754.30315  13042.9198   Gig Harbor        53
+135     136       1722   3520.86640    130.6559 Woodway MUGA        61
+81       82        876   1810.73834    650.8074       Ruston        53
+154     163         24     50.57888      0.0000      Roy PAA        53
+    county_name   hhsize
+9          King 1.943838
+52         King 1.966349
+76       Pierce 1.995112
+135   Snohomish 2.044638
+81       Pierce 2.067053
+154      Pierce 2.107453
+</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">tail</span>(lu[<span class="kw">order</span>(lu<span class="op">$</span>hhsize),])</a></code></pre></div>
+<pre class="output"><code>    city_id households  population  employment         city_name county_id
+148     157        204   663.70020  7856.67975      Frederickson        53
+152     161          4    13.21500    11.51667       Pacific PAA        53
+74       75       4250 14641.94521 19597.32941              JBLM        53
+143     152          6    21.44813     0.00000     Carbonado PAA        53
+155     164         10    49.25578     0.00000 South Prairie PAA        53
+133     134          0     0.00000  8332.60705  PAINE FIELD AREA        61
+    county_name   hhsize
+148      Pierce 3.253432
+152      Pierce 3.303750
+74       Pierce 3.445164
+143      Pierce 3.574689
+155      Pierce 4.925578
+133   Snohomish      NaN
+</code></pre>
+<p>Second, create a histogram for all cities, and a box plot by counties:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">hist</span>(lu<span class="op">$</span>hhsize, <span class="dt">main =</span> <span class="st">&quot;Household size in cities 2050&quot;</span>)</a></code></pre></div>
+<p><img src="fig/01-plots-writing-data-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">boxplot</span>(hhsize <span class="op">~</span><span class="st"> </span>county_name, lu)</a></code></pre></div>
+<p><img src="fig/01-plots-writing-data-unnamed-chunk-4-2.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
+<h2 id="saving-plots">Saving plots</h2>
+<p>You can save a plot from within RStudio using the ‘Export’ button in the ‘Plot’ window. This will give you the option of saving as a .pdf or as .png, .jpg or other image formats.</p>
+<p>Sometimes you will want to save plots without creating them in the ‘Plot’ window first. Perhaps you want to make a pdf document with multiple pages: each one a different plot, for example. Or perhaps you’re looping through multiple subsets of a file, plotting data from each subset, and you want to save each plot, but obviously can’t stop the loop to click ‘Export’ for each one.</p>
+<p>In this case you can use a more flexible approach. The function <code>pdf</code> creates a new pdf device. You can control the size and resolution using the arguments to this function.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">pdf</span>(<span class="st">&quot;myplot.pdf&quot;</span>, <span class="dt">width=</span><span class="dv">12</span>, <span class="dt">height=</span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">hist</span>(lu<span class="op">$</span>hhsize)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">boxplot</span>(hhsize <span class="op">~</span><span class="st"> </span>county_name, lu)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># You then have to make sure to turn off the pdf device!</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw">dev.off</span>()</a></code></pre></div>
+<p>Open up this document and have a look.</p>
+<p>The commands <code>jpeg</code>, <code>png</code> etc. are used similarly to produce documents in different formats.</p>
+        </div>
+      </div>
+      </article>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>

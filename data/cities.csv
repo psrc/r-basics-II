@@ -1,0 +1,162 @@
+city_id,city_name,county_id,county_name
+1,Normandy Park,33,King
+2,Auburn,33,King
+3,King-Rural,33,King
+4,SeaTac,33,King
+5,Shoreline,33,King
+6,Renton PAA,33,King
+7,Kent,33,King
+8,Tukwila,33,King
+9,Seattle,33,King
+10,Kent PAA,33,King
+11,North Highline,33,King
+12,Renton,33,King
+13,Bellevue,33,King
+14,Kirkland,33,King
+15,Redmond,33,King
+16,Covington,33,King
+17,Enumclaw,33,King
+18,Des Moines,33,King
+19,Mercer Island,33,King
+20,Federal Way,33,King
+21,Sammamish,33,King
+22,Issaquah,33,King
+23,Burien,33,King
+24,Sammamish PAA,33,King
+25,Federal Way PAA,33,King
+26,Kenmore,33,King
+27,Duvall,33,King
+28,Bothell,33,King
+29,Pierce-Rural,53,Pierce
+30,Woodinville,33,King
+31,Algona,33,King
+32,North Bend,33,King
+33,Lake Forest Park,33,King
+34,Redmond PAA,33,King
+35,Black Diamond,33,King
+36,Newcastle PAA,33,King
+37,Snoqualmie,33,King
+38,Bear Creek UPD,33,King
+39,Pacific,33,King
+40,Tukwila PAA,33,King
+41,Clyde Hill,33,King
+42,Maple Valley,33,King
+43,Newcastle,33,King
+44,Issaquah PAA,33,King
+45,Black Diamond PAA,33,King
+46,UUU,33,King
+47,Yarrow Point,33,King
+48,Hunts Point,33,King
+49,Snohomish-Rural,61,Snohomish
+50,Medina,33,King
+51,Beaux Arts,33,King
+52,Skykomish,33,King
+53,UU,53,Pierce
+54,Milton,33,King
+55,Carnation,33,King
+57,Milton PAA,33,King
+58,Bellevue PAA,33,King
+59,Tacoma,53,Pierce
+60,Auburn PAA,33,King
+61,Pacific PAA,33,King
+62,Seattle PAA,33,King
+63,Kitsap-Rural,35,Kitsap
+64,Port Orchard,35,Kitsap
+65,Bremerton,35,Kitsap
+66,Bremerton UGA,35,Kitsap
+67,Port Orchard UGA,35,Kitsap
+68,Central Kitsap UGA,35,Kitsap
+69,Bainbridge Island,35,Kitsap
+70,Silverdale,35,Kitsap
+71,Poulsbo,35,Kitsap
+72,Poulsbo PUTA,35,Kitsap
+73,Kingston UGA,35,Kitsap
+74,Steilacoom,53,Pierce
+75,JBLM,53,Pierce
+76,DuPont,53,Pierce
+77,Gig Harbor,53,Pierce
+78,Roy,53,Pierce
+79,Lakewood,53,Pierce
+80,University Place,53,Pierce
+81,Fircrest,53,Pierce
+82,Ruston,53,Pierce
+83,Fife,53,Pierce
+84,Eatonville,53,Pierce
+85,Puyallup,53,Pierce
+86,Orting,53,Pierce
+87,Edgewood,53,Pierce
+88,Sumner,53,Pierce
+89,Bonney Lake,53,Pierce
+90,South Prairie,53,Pierce
+91,Carbonado,53,Pierce
+92,Buckley,53,Pierce
+93,Wilkeson,53,Pierce
+94,Lynnwood,61,Snohomish
+95,Everett,61,Snohomish
+96,Brier,61,Snohomish
+97,Brier MUGA,61,Snohomish
+98,Edmonds,61,Snohomish
+99,Meadowdale Gap,61,Snohomish
+100,Mill Creek,61,Snohomish
+101,Mountlake Terrace,61,Snohomish
+102,Lynnwood MUGA,61,Snohomish
+103,Mill Creek MUGA,61,Snohomish
+104,Larch Way Overlap,61,Snohomish
+105,Bothell MUGA,61,Snohomish
+106,Marysville,61,Snohomish
+107,Lake Stickney Gap,61,Snohomish
+108,Mukilteo MUGA,61,Snohomish
+109,Everett MUGA,61,Snohomish
+110,Monroe,61,Snohomish
+111,Arlington,61,Snohomish
+112,Snohomish,61,Snohomish
+113,Lake Stevens,61,Snohomish
+114,Sultan,61,Snohomish
+115,Woodway,61,Snohomish
+116,Darrington,61,Snohomish
+117,Gold Bar UGA,61,Snohomish
+118,Edmonds MUGA,61,Snohomish
+119,Mountlake Terrace MUGA,61,Snohomish
+120,Mukilteo,61,Snohomish
+121,Marysville UGA,61,Snohomish
+122,Lake Stevens UGA,61,Snohomish
+123,Stanwood,61,Snohomish
+124,Arlington UGA,61,Snohomish
+125,Monroe UGA,61,Snohomish
+126,Snohomish UGA,61,Snohomish
+127,Silver Firs Gap,61,Snohomish
+128,Gold Bar,61,Snohomish
+129,Granite Falls,61,Snohomish
+130,Stanwood UGA,61,Snohomish
+131,Index,61,Snohomish
+132,Maltby UGA,61,Snohomish
+133,Granite Falls UGA,61,Snohomish
+134,PAINE FIELD AREA,61,Snohomish
+135,Sultan UGA,61,Snohomish
+136,Woodway MUGA,61,Snohomish
+137,Darrington UGA,61,Snohomish
+138,Auburn,53,Pierce
+139,Bothell,61,Snohomish
+141,Milton,53,Pierce
+142,Pacific,53,Pierce
+150,Auburn PAA,53,Pierce
+151,Bonney Lake PAA,53,Pierce
+152,Carbonado PAA,53,Pierce
+153,Eatonville PAA,53,Pierce
+154,Fife Milton Overlap,53,Pierce
+155,Fife PAA,53,Pierce
+156,Fircrest PAA,53,Pierce
+157,Frederickson,53,Pierce
+158,Gig Harbor PAA,53,Pierce
+159,Lakewood Steilacoom Overlap,53,Pierce
+160,Milton PAA,53,Pierce
+161,Pacific PAA,53,Pierce
+162,Puyallup PAA,53,Pierce
+163,Roy PAA,53,Pierce
+164,South Prairie PAA,53,Pierce
+165,Sumner PAA,53,Pierce
+166,Tacoma PAA,53,Pierce
+170,Mid-County,53,Pierce
+171,Parkland-Spanaway-Midland,53,Pierce
+172,Puyallup PAA-HCT,53,Pierce
+173,South Hill,53,Pierce

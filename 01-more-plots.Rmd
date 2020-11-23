@@ -1,0 +1,71 @@
+---
+layout: page
+title: R Fundamentals II
+subtitle: More plots and writing data
+---
+
+```{r, include=FALSE}
+source("tools/chunk-options.R")
+opts_chunk$set(fig.path = "fig/01-plots-writing-data-")
+# Silently load in the data so the rest of the lesson works
+cities <- read.csv(file="data/cities.csv")
+```
+
+> ## Learning Objectives {.objectives}
+> 
+> * To be able to visualize data using simple plots
+>
+
+## Boxplot
+
+Let's bring in a dataset with multiple land use indicators from 2050, and merge it with city names:
+
+```{r}
+lu <- read.csv(file="data/indicators2050.csv")
+lu <- merge(lu, cities, by="city_id", all=TRUE)
+summary(lu)
+```
+Say we want to look at the distribution of the average household sizes by counties. First, create a column for household size:
+
+```{r}
+lu$hhsize <- lu$population/lu$households
+head(lu[order(lu$hhsize),])
+tail(lu[order(lu$hhsize),])
+```
+
+Second, create a histogram for all cities, and a box plot by counties:
+
+```{r}
+hist(lu$hhsize, main = "Household size in cities 2050")
+boxplot(hhsize ~ county_name, lu)
+```
+
+## Saving plots
+You can save a plot from within RStudio using the 'Export' button
+in the 'Plot' window. This will give you the option of saving as a
+.pdf or as .png, .jpg or other image formats.
+
+Sometimes you will want to save plots without creating them in the
+'Plot' window first. Perhaps you want to make a pdf document with
+multiple pages: each one a different plot, for example. Or perhaps
+you're looping through multiple subsets of a file, plotting data from
+each subset, and you want to save each plot, but obviously can't stop
+the loop to click 'Export' for each one.
+
+In this case you can use a more flexible approach. The function
+`pdf` creates a new pdf device. You can control the size and resolution
+using the arguments to this function.
+
+```{r, eval=FALSE}
+pdf("myplot.pdf", width=12, height=4)
+par(mfrow=c(1,2))
+hist(lu$hhsize)
+boxplot(hhsize ~ county_name, lu)
+# You then have to make sure to turn off the pdf device!
+dev.off()
+```
+Open up this document and have a look.
+
+The commands `jpeg`, `png` etc. are used similarly to produce
+documents in different formats.
+
