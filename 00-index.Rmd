@@ -12,9 +12,10 @@ Building on the previous module, you will learn how to write and understand func
 
 1. [More plots](01-more-plots.html)
 2. [Writing data](02-writing-data.html)
-3. [Creating functions and Control flow](07-functions.html)
-4. [Extras](15-wrap-up.html)
-5. [Homework](16-home_work.html)
+3. [Functions](03-functions.html)
+4. [Control flow](04-control-flow.html)
+5. [Extras](15-wrap-up.html)
+6. [Homework](06-home-work.html)
 
 
 

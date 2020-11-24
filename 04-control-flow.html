@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>PSRC 2020 R workshop: R Fundamentals II</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">R Fundamentals II</h1></a>
+          <h2 class="subtitle">Control flow</h2>
+          <section class="objectives panel panel-warning">
+<div class="panel-heading">
+<h2 id="learning-objectives"><span class="glyphicon glyphicon-certificate"></span>Learning Objectives</h2>
+</div>
+<div class="panel-body">
+<ul>
+<li>Get familiar with control flow structures:
+<ul>
+<li><code>if else</code></li>
+<li><code>for</code></li>
+<li><code>while</code></li>
+</ul></li>
+</ul>
+</div>
+</section>
+<p><a id="control-flow"></a></p>
+<p>The meaning of the control flow structures <code>if else</code>, <code>for</code> and <code>while</code> is the same as in Python or other programming languages. What differs is the syntax. Let’s learn these construct on examples.</p>
+<h2 id="structure-if-else">Structure <code>if else</code></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">add.growth.rate</span>(hh, <span class="st">&quot;hh16&quot;</span>, <span class="st">&quot;hh50&quot;</span>)</a></code></pre></div>
+<pre class="error"><code>Error in `[.data.frame`(dat, , col2): undefined columns selected
+</code></pre>
+<p>First let’s modify our <code>add.growth.rate</code> funtion to control for the existence of the columns:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gr.outliers &lt;-<span class="st"> </span><span class="cf">function</span>(dat, <span class="dt">threshold =</span> <span class="dv">50</span>, <span class="dt">grcol =</span> <span class="st">&quot;GrowthRate&quot;</span>, <span class="dt">above =</span> <span class="ot">TRUE</span>) {</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    res &lt;-<span class="st"> </span>dat[dat[[grcol]] <span class="op">&gt;</span><span class="st"> </span>threshold, ]</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">return</span>(res)</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">add.growth.rate &lt;-<span class="st"> </span><span class="cf">function</span>(dat, col1, col2, <span class="dt">new.name =</span> <span class="st">&quot;GrowthRate&quot;</span>) {</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="cf">if</span>(<span class="kw">is.null</span>(dat[[col1]]) <span class="op">||</span><span class="st"> </span><span class="kw">is.null</span>(dat[[col2]])) {</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">        dat[[new.name]] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">        newcol &lt;-<span class="st"> </span><span class="kw">growth.rate</span>(dat[, col1], dat[, col2])</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">        dat[[new.name]] &lt;-<span class="st"> </span><span class="kw">round</span>(newcol, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    }</a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">    <span class="kw">return</span>(dat)</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="kw">head</span>(<span class="kw">add.growth.rate</span>(hh, <span class="st">&quot;hh16&quot;</span>, <span class="st">&quot;hh50&quot;</span>))</a></code></pre></div>
+<pre class="output"><code>  city_id hh2016 hh2020 hh2030 hh2040 hh2050     city_name county_id
+1       1   2705   2735   2836   2939   3037 Normandy Park        33
+2       2  24886  26527  32059  37708  43071        Auburn        33
+3       3  45021  45724  48094  50515  52813    King-Rural        33
+4       4  10135  11122  14449  17846  21072        SeaTac        33
+5       5  22527  23240  25643  28097  30427     Shoreline        33
+6       6  16769  17481  19881  22332  24658    Renton PAA        33
+  county_name GrowthRate
+1        King         NA
+2        King         NA
+3        King         NA
+4        King         NA
+5        King         NA
+6        King         NA
+</code></pre>
+<p>We have our vectors of cities obtained <code>outl.above</code> and <code>outl.below</code> and we want to extract data corresponding to those cities from the households dataset:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="cf">for</span>(city <span class="cf">in</span> outl.above) {</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="kw">print</span>(hh[idx,])</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">}</a></code></pre></div>
+<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.above&#39; not found
+</code></pre>
+<p>This does not look very pretty. We can improve by binding the rows together:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.above) {</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">}</a></code></pre></div>
+<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.above&#39; not found
+</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
+<pre class="output"><code>NULL
+</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.below) {</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">}</a></code></pre></div>
+<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.below&#39; not found
+</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
+<pre class="output"><code>NULL
+</code></pre>
+<p>Sometimes you will find yourself needing to repeat an operation until a certain condition is met. You can do this with a <code>while</code> loop.</p>
+<p>Say we want the above data frame but with maximum of five rows:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="cf">while</span>(i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>) {</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>outl.below[i])</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">    i =<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">}</a></code></pre></div>
+<pre class="error"><code>Error in which(hh$city_name == outl.below[i]): object &#39;outl.below&#39; not found
+</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
+<pre class="output"><code>NULL
+</code></pre>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="challenge-2"><span class="glyphicon glyphicon-pencil"></span>Challenge 2</h2>
+</div>
+<div class="panel-body">
+<p>How would you vectorise the following loop</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.below) {</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3">  idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4">  res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5">}</a></code></pre></div>
+<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.below&#39; not found
+</code></pre>
+</div>
+</section>
+<h2 id="challenge-solutions">Challenge solutions</h2>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="solution-to-challenge-2"><span class="glyphicon glyphicon-pencil"></span>Solution to challenge 2</h2>
+</div>
+<div class="panel-body">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">hh[<span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">%in%</span><span class="st"> </span>outl.below),]</a></code></pre></div>
+<pre class="error"><code>Error in hh$city_name %in% outl.below: object &#39;outl.below&#39; not found
+</code></pre>
+</div>
+</section>
+        </div>
+      </div>
+      </article>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>

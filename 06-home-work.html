@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>PSRC 2020 R workshop: R Fundamentals II</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <a href="index.html"><h1 class="title">R Fundamentals II</h1></a>
+          <h2 class="subtitle">Homework</h2>
+          <section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="challenge-1"><span class="glyphicon glyphicon-pencil"></span>Challenge 1</h2>
+</div>
+<div class="panel-body">
+<p>The <code>paste</code> function can be used to combine text together, e.g:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">best_practice &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Write&quot;</span>, <span class="st">&quot;programs&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;people&quot;</span>, <span class="st">&quot;not&quot;</span>, <span class="st">&quot;computers&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">paste</span>(best_practice, <span class="dt">collapse=</span><span class="st">&quot; &quot;</span>)</a></code></pre></div>
+<pre class="output"><code>[1] &quot;Write programs for people not computers&quot;
+</code></pre>
+<p>Write a function called <code>fence</code> that takes two vectors as arguments, called <code>text</code> and <code>wrapper</code>, and prints out the text wrapped with the <code>wrapper</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">fence</span>(<span class="dt">text =</span> best_practice, <span class="dt">wrapper =</span> <span class="st">&quot;***&quot;</span>)</a></code></pre></div>
+<pre class="output"><code>[1] &quot;*** Write programs for people not computers ***&quot;
+</code></pre>
+<p><em>Note:</em> the <code>paste</code> function has an argument called <code>sep</code>, which specifies the separator between text. The default is a space: &quot; “. The default for <code>paste0</code> is no space”&quot;.</p>
+</div>
+</section>
+<p>This homework combines everything we learned: reading data from a file, transforming and adding columns, subsetting, plotting, reading help files.</p>
+<p>Write a script that reads the land use dataset <code>city__dataset_table__lu_indicators__2010.tab</code>, joins it with cities and counties and for each county it creates a histogram of the non-residential sqft per job ratio. The histogram should have 20 bins. It should also include a thick red vertical line at the mean value of the ratio per county. Your result should look like this:</p>
+<pre class="error"><code>Error in cbind(lu, sqft_per_job = lu$non_res_sqft/lu$jobs): object &#39;lu&#39; not found
+</code></pre>
+<pre class="error"><code>Error in subset(lu, county_id == county): object &#39;lu&#39; not found
+</code></pre>
+<p>Hint: See <code>?hist</code> to find out how to control the number of bins in a histogram. Also for the title, you can extract the county name by subsetting the dataset <code>counties</code>. Make the code more general by using the <code>for</code> loop described in <a href="07-functions.html#control-flow">this</a> section.</p>
+        </div>
+      </div>
+      </article>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>

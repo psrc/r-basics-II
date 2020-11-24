@@ -1,0 +1,126 @@
+---
+layout: page
+title: R Fundamentals II
+subtitle: Control flow
+---
+
+```{r, include=FALSE}
+source("tools/chunk-options.R")
+# Silently load in the data so the rest of the lesson works
+hh <- read.table(file="data/cities_households.csv", header=TRUE, sep=",")
+cities <- read.csv(file="data/cities.csv")
+hh <- merge(hh, cities, by="city_id", all=TRUE)
+#colnames(hh)[ncol(hh)] <- "county"
+
+growth.rate <- function(x, y) {
+    rate <- (y - x)/x * 100
+    return(rate)
+}
+add.growth.rate <- function(dat, col1, col2, new.name = "GrowthRate") {
+  newcol <- growth.rate(dat[, col1], dat[, col2])
+  dat[[new.name]] <- round(newcol, 1)
+  return(dat)
+}
+gr.outliers <- function(dat, threshold = 50, grcol = "GrowthRate") {
+    res <- dat[dat[[grcol]] > threshold, ]
+    return(res)
+}
+```
+
+> ## Learning Objectives {.objectives}
+>
+> * Get familiar with control flow structures:
+>   * `if else`
+>   * `for`
+>   * `while`
+>
+
+<a id="control-flow"></a>
+
+The meaning of the control flow structures `if else`, `for` and `while` is the same as in Python or other programming languages. What differs is the syntax. Let's learn these construct on examples.
+
+## Structure `if else`
+
+```{r, error=TRUE}
+add.growth.rate(hh, "hh16", "hh50")
+```
+
+First let's modify our `add.growth.rate` funtion to control for the existence of the columns:
+```{r}
+gr.outliers <- function(dat, threshold = 50, grcol = "GrowthRate", above = TRUE) {
+    res <- dat[dat[[grcol]] > threshold, ]
+    return(res)
+}
+
+
+add.growth.rate <- function(dat, col1, col2, new.name = "GrowthRate") {
+    if(is.null(dat[[col1]]) || is.null(dat[[col2]])) {
+        dat[[new.name]] <- NA
+    } else {
+        newcol <- growth.rate(dat[, col1], dat[, col2])
+        dat[[new.name]] <- round(newcol, 1)
+    }
+    return(dat)
+}
+head(add.growth.rate(hh, "hh16", "hh50"))
+```
+
+We have our vectors of cities obtained `outl.above` and `outl.below` and we want to extract data corresponding to those cities from the households dataset:
+```{r}
+for(city in outl.above) {
+	idx <- which(hh$city_name == city)
+	print(hh[idx,])
+}
+```
+This does not look very pretty. We can improve by binding the rows together:
+```{r}
+res <- NULL
+for(city in outl.above) {
+	idx <- which(hh$city_name == city)
+	res <- rbind(res, hh[idx,])
+}
+print(res)
+res <- NULL
+for(city in outl.below) {
+	idx <- which(hh$city_name == city)
+	res <- rbind(res, hh[idx,])
+}
+print(res)
+```
+
+Sometimes you will find yourself needing to repeat an operation until a certain
+condition is met. You can do this with a `while` loop.
+
+Say we want the above data frame but with maximum of five rows:
+```{r}
+res <- NULL
+i <- 1
+while(i <= 5) {
+	idx <- which(hh$city_name == outl.below[i])
+	res <- rbind(res, hh[idx,])
+	i = i + 1
+}
+print(res)
+```
+
+> ## Challenge 2 {.challenge}
+>
+> How would you vectorise the following loop
+> 
+> ```{r}
+> res <- NULL
+> for(city in outl.below) {
+>   idx <- which(hh$city_name == city)
+>   res <- rbind(res, hh[idx,])
+> }
+> ```
+
+## Challenge solutions
+
+
+
+> ## Solution to challenge 2 {.challenge}
+>
+> ```{r}
+> hh[which(hh$city_name %in% outl.below),]
+> ```
