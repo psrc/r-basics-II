@@ -40,6 +40,7 @@ hist(lu$hhsize, main = "Household size in cities 2050")
 boxplot(hhsize ~ county_name, lu)
 ```
 
+<a id="saving-plots"></a>
 ## Saving plots
 You can save a plot from within RStudio using the 'Export' button
 in the 'Plot' window. This will give you the option of saving as a
@@ -58,7 +59,7 @@ using the arguments to this function.
 
 ```{r, eval=FALSE}
 pdf("myplot.pdf", width=12, height=4)
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) # creates space for two graph panels in one row
 hist(lu$hhsize)
 boxplot(hhsize ~ county_name, lu)
 # You then have to make sure to turn off the pdf device!

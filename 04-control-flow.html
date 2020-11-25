@@ -41,109 +41,96 @@
 <p><a id="control-flow"></a></p>
 <p>The meaning of the control flow structures <code>if else</code>, <code>for</code> and <code>while</code> is the same as in Python or other programming languages. What differs is the syntax. Let’s learn these construct on examples.</p>
 <h2 id="structure-if-else">Structure <code>if else</code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">add.growth.rate</span>(hh, <span class="st">&quot;hh16&quot;</span>, <span class="st">&quot;hh50&quot;</span>)</a></code></pre></div>
-<pre class="error"><code>Error in `[.data.frame`(dat, , col2): undefined columns selected
+<p>First let’s modify our <code>gr.outliers</code> funtion to control for outliers from both sides of the distribution:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">gr.outliers &lt;-<span class="st"> </span><span class="cf">function</span>(dat, <span class="dt">threshold =</span> <span class="dv">50</span>, <span class="dt">grcol =</span> <span class="st">&quot;GrowthRate&quot;</span>, <span class="dt">above =</span> <span class="ot">TRUE</span>) {</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    dat &lt;-<span class="st"> </span><span class="kw">na.omit</span>(dat) <span class="co"># removes rows with NA</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">    <span class="cf">if</span>(above) {</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">        res &lt;-<span class="st"> </span>dat[dat[[grcol]] <span class="op">&gt;</span><span class="st"> </span>threshold, ]</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">        res &lt;-<span class="st"> </span>dat[dat[[grcol]] <span class="op">&lt;=</span><span class="st"> </span>threshold, ]</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    }</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">    <span class="kw">return</span>(res)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">hhgr &lt;-<span class="st"> </span><span class="kw">add.growth.rate</span>(hh, <span class="st">&quot;hh2030&quot;</span>, <span class="st">&quot;hh2050&quot;</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">gr.outliers</span>(hhgr, <span class="dv">150</span>)</a></code></pre></div>
+<pre class="output"><code>    city_id hh2016 hh2020 hh2030 hh2040 hh2050    city_name county_id
+135     136      5    160    682   1216   1722 Woodway MUGA        61
+    county_name GrowthRate
+135   Snohomish      152.5
 </code></pre>
-<p>First let’s modify our <code>add.growth.rate</code> funtion to control for the existence of the columns:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gr.outliers &lt;-<span class="st"> </span><span class="cf">function</span>(dat, <span class="dt">threshold =</span> <span class="dv">50</span>, <span class="dt">grcol =</span> <span class="st">&quot;GrowthRate&quot;</span>, <span class="dt">above =</span> <span class="ot">TRUE</span>) {</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">    res &lt;-<span class="st"> </span>dat[dat[[grcol]] <span class="op">&gt;</span><span class="st"> </span>threshold, ]</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">return</span>(res)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">add.growth.rate &lt;-<span class="st"> </span><span class="cf">function</span>(dat, col1, col2, <span class="dt">new.name =</span> <span class="st">&quot;GrowthRate&quot;</span>) {</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="cf">if</span>(<span class="kw">is.null</span>(dat[[col1]]) <span class="op">||</span><span class="st"> </span><span class="kw">is.null</span>(dat[[col2]])) {</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">        dat[[new.name]] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">        newcol &lt;-<span class="st"> </span><span class="kw">growth.rate</span>(dat[, col1], dat[, col2])</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">        dat[[new.name]] &lt;-<span class="st"> </span><span class="kw">round</span>(newcol, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">    }</a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">    <span class="kw">return</span>(dat)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15">}</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="kw">head</span>(<span class="kw">add.growth.rate</span>(hh, <span class="st">&quot;hh16&quot;</span>, <span class="st">&quot;hh50&quot;</span>))</a></code></pre></div>
-<pre class="output"><code>  city_id hh2016 hh2020 hh2030 hh2040 hh2050     city_name county_id
-1       1   2705   2735   2836   2939   3037 Normandy Park        33
-2       2  24886  26527  32059  37708  43071        Auburn        33
-3       3  45021  45724  48094  50515  52813    King-Rural        33
-4       4  10135  11122  14449  17846  21072        SeaTac        33
-5       5  22527  23240  25643  28097  30427     Shoreline        33
-6       6  16769  17481  19881  22332  24658    Renton PAA        33
-  county_name GrowthRate
-1        King         NA
-2        King         NA
-3        King         NA
-4        King         NA
-5        King         NA
-6        King         NA
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">gr.outliers</span>(hhgr, <span class="dv">0</span>, <span class="dt">above =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<pre class="output"><code>    city_id hh2016 hh2020 hh2030 hh2040 hh2050         city_name county_id
+36       36      2      2      2      2      2     Newcastle PAA        33
+45       45     40     40     38     37     36 Black Diamond PAA        33
+54       54    608    606    600    595    589            Milton        33
+131     132     61     61     61     61     61        Maltby UGA        61
+148     157    212    211    209    206    204      Frederickson        53
+152     161      4      4      4      4      4       Pacific PAA        53
+    county_name GrowthRate
+36         King        0.0
+45         King       -5.3
+54         King       -1.8
+131   Snohomish        0.0
+148      Pierce       -2.4
+152      Pierce        0.0
 </code></pre>
-<p>We have our vectors of cities obtained <code>outl.above</code> and <code>outl.below</code> and we want to extract data corresponding to those cities from the households dataset:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="cf">for</span>(city <span class="cf">in</span> outl.above) {</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="kw">print</span>(hh[idx,])</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">}</a></code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.above&#39; not found
+<p>In the <code>if else</code> construct the condition in parentheses must be of length one. An alternative construct for vectorized conditioning is <code>ifelse</code>. It is faster than <code>if else</code> and is preferable if possible. For example, the <code>growth.rate</code> function can be written so that it takes into account zeros in the denominator:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">growth.rate0 &lt;-<span class="st"> </span><span class="cf">function</span>(x, y) {</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">    rate &lt;-<span class="st"> </span><span class="kw">ifelse</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, (y <span class="op">-</span><span class="st"> </span>x)<span class="op">/</span>x <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">    <span class="kw">return</span>(rate)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">growth.rate</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a></code></pre></div>
+<pre class="output"><code>[1] Inf 100
 </code></pre>
-<p>This does not look very pretty. We can improve by binding the rows together:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.above) {</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">}</a></code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.above&#39; not found
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">growth.rate0</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a></code></pre></div>
+<pre class="output"><code>[1]   0 100
 </code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
-<pre class="output"><code>NULL
+<h2 id="structure-for">Structure <code>for</code></h2>
+<p>The <code>for</code> structure is used when we want to repeat a block of code specified number of times.</p>
+<p>Say we want to compute the sum of households for each county and store it in a new data frame:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="cf">for</span>(cnty <span class="cf">in</span> <span class="kw">c</span>(<span class="st">&quot;King&quot;</span>, <span class="st">&quot;Kitsap&quot;</span>, <span class="st">&quot;Pierce&quot;</span>, <span class="st">&quot;Snohomish&quot;</span>)) {</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    s &lt;-<span class="st"> </span><span class="kw">subset</span>(hh, county_name <span class="op">==</span><span class="st"> </span>cnty)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">    sm &lt;-<span class="st"> </span><span class="kw">apply</span>(s[,<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>], <span class="dv">2</span>, sum)</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, <span class="kw">data.frame</span>(<span class="dt">county =</span> cnty, <span class="kw">t</span>(sm)))</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">res</a></code></pre></div>
+<pre class="output"><code>     county hh2016 hh2020  hh2030  hh2040  hh2050
+1      King 870519 911389 1049159 1189850 1323417
+2    Kitsap 100699 104337  116591  129107  140989
+3    Pierce 320054 335245  386446  438732  488373
+4 Snohomish 290591 306526  360226  415076  467140
 </code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.below) {</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">}</a></code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.below&#39; not found
+<p>The code inside <code>{ }</code> runs repeatedly while the object <code>cnty</code> taking one value from the county sequence in each iteration.</p>
+<p>Another example of a <code>for</code> loop is a slower version of the <code>apply</code> function above. Here computing sums for the whole region:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw">c</span>()</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">6</span>) {</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">    res &lt;-<span class="st"> </span><span class="kw">c</span>(res, <span class="kw">sum</span>(hh[, i]))</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">names</span>(res) &lt;-<span class="st"> </span><span class="kw">colnames</span>(hh)[<span class="dv">2</span><span class="op">:</span><span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">res</a></code></pre></div>
+<pre class="output"><code> hh2016  hh2020  hh2030  hh2040  hh2050 
+1581863 1657497 1912422 2172765 2419919 
 </code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
-<pre class="output"><code>NULL
+<p>which is equivalent to</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">apply</span>(hh[, <span class="dv">2</span><span class="op">:</span><span class="dv">6</span>], <span class="dv">2</span>, sum)</a></code></pre></div>
+<pre class="output"><code> hh2016  hh2020  hh2030  hh2040  hh2050 
+1581863 1657497 1912422 2172765 2419919 
 </code></pre>
+<h2 id="structure-while">Structure <code>while</code></h2>
 <p>Sometimes you will find yourself needing to repeat an operation until a certain condition is met. You can do this with a <code>while</code> loop.</p>
-<p>Say we want the above data frame but with maximum of five rows:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="cf">while</span>(i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>) {</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">    idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>outl.below[i])</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">    res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">    i =<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">}</a></code></pre></div>
-<pre class="error"><code>Error in which(hh$city_name == outl.below[i]): object &#39;outl.below&#39; not found
+<p>Let’s throw a dice and count how many throws it takes to get three sixes.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">throw &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">count6 &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="cf">while</span>(count6 <span class="op">&lt;=</span><span class="st"> </span><span class="dv">3</span>) {</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    d &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="cf">if</span>(d <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">        count6 &lt;-<span class="st"> </span>count6 <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">    throw &lt;-<span class="st"> </span>throw <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">throw</a></code></pre></div>
+<pre class="output"><code>[1] 9
 </code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">print</span>(res)</a></code></pre></div>
-<pre class="output"><code>NULL
-</code></pre>
-<section class="challenge panel panel-success">
-<div class="panel-heading">
-<h2 id="challenge-2"><span class="glyphicon glyphicon-pencil"></span>Challenge 2</h2>
-</div>
-<div class="panel-body">
-<p>How would you vectorise the following loop</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="cf">for</span>(city <span class="cf">in</span> outl.below) {</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">  idx &lt;-<span class="st"> </span><span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">==</span><span class="st"> </span>city)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">  res &lt;-<span class="st"> </span><span class="kw">rbind</span>(res, hh[idx,])</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">}</a></code></pre></div>
-<pre class="error"><code>Error in eval(expr, envir, enclos): object &#39;outl.below&#39; not found
-</code></pre>
-</div>
-</section>
-<h2 id="challenge-solutions">Challenge solutions</h2>
-<section class="challenge panel panel-success">
-<div class="panel-heading">
-<h2 id="solution-to-challenge-2"><span class="glyphicon glyphicon-pencil"></span>Solution to challenge 2</h2>
-</div>
-<div class="panel-body">
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">hh[<span class="kw">which</span>(hh<span class="op">$</span>city_name <span class="op">%in%</span><span class="st"> </span>outl.below),]</a></code></pre></div>
-<pre class="error"><code>Error in hh$city_name %in% outl.below: object &#39;outl.below&#39; not found
-</code></pre>
-</div>
-</section>
         </div>
       </div>
       </article>

@@ -43,23 +43,16 @@ subtitle: Homework
 > is no space "".
 >
 
+> ## Challenge 2 {.challenge}
+> Can you write a `for` loop that reproduces the following 4-panel plot of growth rate 
+> from 2020 to 2030 for the four counties?
+>
+> <img src="fig/06-home-work-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
+> _Hint_: See the [Saving Plots](01-more-plots.html#saving-plots) section on creating a 2x2 graph panels.
+> 
 
 
-This homework combines everything we learned: reading data from a file, transforming and adding columns, subsetting, plotting, reading help files.
-
-Write a script that reads the land use dataset `city__dataset_table__lu_indicators__2010.tab`, joins it with cities and counties and for each county it creates a histogram of the non-residential sqft per job ratio. The histogram should have 20 bins. It should also include a thick red vertical line at the mean value of the ratio per county. Your result should look like this:
-
-
-~~~{.error}
-Error in cbind(lu, sqft_per_job = lu$non_res_sqft/lu$jobs): object 'lu' not found
-
-~~~
-
-
-
-~~~{.error}
-Error in subset(lu, county_id == county): object 'lu' not found
-
-~~~
-
-Hint: See `?hist` to find out how to control the number of bins in a histogram. Also for the title, you can extract the county name by subsetting the dataset `counties`. Make the code more general by using the `for` loop described in [this](07-functions.html#control-flow) section.
+> ## Challenge 3 {.challenge}
+>
+> Install the following packages: `ggplot2`, `dplyr`, `data.table`
+>

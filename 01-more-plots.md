@@ -110,6 +110,7 @@ boxplot(hhsize ~ county_name, lu)
 
 <img src="fig/01-plots-writing-data-unnamed-chunk-4-2.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
+<a id="saving-plots"></a>
 ## Saving plots
 You can save a plot from within RStudio using the 'Export' button
 in the 'Plot' window. This will give you the option of saving as a
@@ -129,7 +130,7 @@ using the arguments to this function.
 
 ~~~{.r}
 pdf("myplot.pdf", width=12, height=4)
-par(mfrow=c(1,2))
+par(mfrow=c(1,2)) # creates space for two graph panels in one row
 hist(lu$hhsize)
 boxplot(hhsize ~ county_name, lu)
 # You then have to make sure to turn off the pdf device!

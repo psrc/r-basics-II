@@ -40,13 +40,23 @@
 <p><em>Note:</em> the <code>paste</code> function has an argument called <code>sep</code>, which specifies the separator between text. The default is a space: &quot; “. The default for <code>paste0</code> is no space”&quot;.</p>
 </div>
 </section>
-<p>This homework combines everything we learned: reading data from a file, transforming and adding columns, subsetting, plotting, reading help files.</p>
-<p>Write a script that reads the land use dataset <code>city__dataset_table__lu_indicators__2010.tab</code>, joins it with cities and counties and for each county it creates a histogram of the non-residential sqft per job ratio. The histogram should have 20 bins. It should also include a thick red vertical line at the mean value of the ratio per county. Your result should look like this:</p>
-<pre class="error"><code>Error in cbind(lu, sqft_per_job = lu$non_res_sqft/lu$jobs): object &#39;lu&#39; not found
-</code></pre>
-<pre class="error"><code>Error in subset(lu, county_id == county): object &#39;lu&#39; not found
-</code></pre>
-<p>Hint: See <code>?hist</code> to find out how to control the number of bins in a histogram. Also for the title, you can extract the county name by subsetting the dataset <code>counties</code>. Make the code more general by using the <code>for</code> loop described in <a href="07-functions.html#control-flow">this</a> section.</p>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="challenge-2"><span class="glyphicon glyphicon-pencil"></span>Challenge 2</h2>
+</div>
+<div class="panel-body">
+<p>Can you write a <code>for</code> loop that reproduces the following 4-panel plot of growth rate from 2020 to 2030 for the four counties?</p>
+<p><img src="fig/06-home-work-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /> <em>Hint</em>: See the <a href="01-more-plots.html#saving-plots">Saving Plots</a> section on creating a 2x2 graph panels.</p>
+</div>
+</section>
+<section class="challenge panel panel-success">
+<div class="panel-heading">
+<h2 id="challenge-3"><span class="glyphicon glyphicon-pencil"></span>Challenge 3</h2>
+</div>
+<div class="panel-body">
+<p>Install the following packages: <code>ggplot2</code>, <code>dplyr</code>, <code>data.table</code></p>
+</div>
+</section>
         </div>
       </div>
       </article>

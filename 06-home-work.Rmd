@@ -6,11 +6,28 @@ subtitle: Homework
 
 ```{r, include=FALSE}
 source("tools/chunk-options.R")
+opts_chunk$set(fig.path = "fig/06-home-work-")
 fence <- function(text, wrapper){
     text <- c(wrapper, text, wrapper)
     result <- paste0(text, collapse = " ")
     return(result)
 }
+growth.rate <- function(x, y) {
+    rate <- (y - x)/x * 100
+    return(rate)
+}
+add.growth.rate <- function(dat, col1, col2, new.name = "GrowthRate") {
+    newcol <- growth.rate(dat[, col1], dat[, col2])
+    dat[[new.name]] <- round(newcol, 1)
+    return(dat)
+}
+
+hh <- read.table(file="data/cities_households.csv", header=TRUE, sep=",")
+cities <- read.csv(file="data/cities.csv")
+hh <- merge(hh, cities, by="city_id", all=TRUE)
+
+hhgr <- add.growth.rate(hh, "hh2020", "hh2030")
+
 ```
 
 > ## Challenge 1 {.challenge}
@@ -34,20 +51,22 @@ fence <- function(text, wrapper){
 > is no space "".
 >
 
+> ## Challenge 2 {.challenge}
+> Can you write a `for` loop that reproduces the following 4-panel plot of growth rate 
+> from 2020 to 2030 for the four counties?
+>
+> ```{r, echo = FALSE}
+> par(mfrow = c(2,2))
+> for(cnty in c("King", "Kitsap", "Pierce", "Snohomish")){
+>    s <- subset(hhgr, county_name == cnty)
+>    hist(s$GrowthRate, main = cnty, xlab = "HH Growth 2020-2030")
+> }
+> ```
+> _Hint_: See the [Saving Plots](01-more-plots.html#saving-plots) section on creating a 2x2 graph panels.
+> 
 
 
-This homework combines everything we learned: reading data from a file, transforming and adding columns, subsetting, plotting, reading help files.
-
-Write a script that reads the land use dataset `city__dataset_table__lu_indicators__2010.tab`, joins it with cities and counties and for each county it creates a histogram of the non-residential sqft per job ratio. The histogram should have 20 bins. It should also include a thick red vertical line at the mean value of the ratio per county. Your result should look like this:
-
-```{r, echo=FALSE, eval=TRUE}
-lu <- cbind(lu, sqft_per_job=lu$non_res_sqft/lu$jobs)
-par(mfrow=c(2,2))
-for(county in 1:4){
-	county.data <- subset(lu, county_id==county)
-	hist(county.data$sqft_per_job, breaks=20, main=subset(counties, county_id==county)$county_name, xlab="sqft per job")
-	abline(v=mean(county.data$sqft_per_job, na.rm=TRUE), col="red", lwd=2)
-}
-```
-
-Hint: See `?hist` to find out how to control the number of bins in a histogram. Also for the title, you can extract the county name by subsetting the dataset `counties`. Make the code more general by using the `for` loop described in [this](07-functions.html#control-flow) section.
+> ## Challenge 3 {.challenge}
+>
+> Install the following packages: `ggplot2`, `dplyr`, `data.table`
+>
