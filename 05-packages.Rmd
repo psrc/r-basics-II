@@ -6,7 +6,7 @@ subtitle: R packages
 
 > ## Learning Objectives {.objectives}
 >
-> * To be able to install R packages
+> * To be able to install and load R packages
 >
 
 ```{r, include=FALSE}

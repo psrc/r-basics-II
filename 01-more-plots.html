@@ -30,6 +30,7 @@
 <div class="panel-body">
 <ul>
 <li>To be able to visualize data using simple plots</li>
+<li>Save plots into files</li>
 </ul>
 </div>
 </section>
@@ -92,7 +93,9 @@
 <p><img src="fig/01-plots-writing-data-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">boxplot</span>(hhsize <span class="op">~</span><span class="st"> </span>county_name, lu)</a></code></pre></div>
 <p><img src="fig/01-plots-writing-data-unnamed-chunk-4-2.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
-<p><a id="saving-plots"></a> ## Saving plots You can save a plot from within RStudio using the ‘Export’ button in the ‘Plot’ window. This will give you the option of saving as a .pdf or as .png, .jpg or other image formats.</p>
+<p><a id="saving-plots"></a></p>
+<h2 id="saving-plots">Saving plots</h2>
+<p>You can save a plot from within RStudio using the ‘Export’ button in the ‘Plot’ window. This will give you the option of saving as a .pdf or as .png, .jpg or other image formats.</p>
 <p>Sometimes you will want to save plots without creating them in the ‘Plot’ window first. Perhaps you want to make a pdf document with multiple pages: each one a different plot, for example. Or perhaps you’re looping through multiple subsets of a file, plotting data from each subset, and you want to save each plot, but obviously can’t stop the loop to click ‘Export’ for each one.</p>
 <p>In this case you can use a more flexible approach. The function <code>pdf</code> creates a new pdf device. You can control the size and resolution using the arguments to this function.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">pdf</span>(<span class="st">&quot;myplot.pdf&quot;</span>, <span class="dt">width=</span><span class="dv">12</span>, <span class="dt">height=</span><span class="dv">4</span>)</a>
