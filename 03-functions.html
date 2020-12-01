@@ -82,7 +82,7 @@
 </code></pre>
 <h2 id="combining-functions">Combining functions</h2>
 <p>The real power of functions comes from mixing, matching and combining them into ever large chunks to get the effect we want.</p>
-<p>Here we define a function that computes a growth rate for given columns of a dataset and adds it to the datasetas an additional column:</p>
+<p>Here we define a function that computes a growth rate for given columns of a dataset and adds it to the dataset as an additional column:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">add.growth.rate &lt;-<span class="st"> </span><span class="cf">function</span>(dat, col1, col2, <span class="dt">new.name =</span> <span class="st">&quot;GrowthRate&quot;</span>) {</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">  newcol &lt;-<span class="st"> </span><span class="kw">growth.rate</span>(dat[, col1], dat[, col2])</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3">  dat[[new.name]] &lt;-<span class="st"> </span><span class="kw">round</span>(newcol, <span class="dv">1</span>)</a>

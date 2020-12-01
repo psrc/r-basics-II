@@ -106,7 +106,7 @@ growth.rate(c(1, 3, 5), c(2, 3, 4))
 The real power of functions comes from mixing, matching and combining them
 into ever large chunks to get the effect we want.
 
-Here we define a function that computes a growth rate for given columns of a dataset and adds it to the datasetas an additional column:
+Here we define a function that computes a growth rate for given columns of a dataset and adds it to the dataset as an additional column:
 
 
 ~~~{.r}

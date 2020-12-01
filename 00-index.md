@@ -25,6 +25,13 @@ If you attended the first module, you should have everything you need. Otherwise
 5. [Installing packages](05-packages.html)
 6. [Homework](06-home-work.html)
 
+## Other Resources
+
+*  [Reference](reference.html)
+*  [R Fundamentals I](../r-basics-I/00-index.html)
+*  [R Fundamentals I video](https://aws-linux/rworkshop2020/recordings/R-basics-I-2020-11-17/zoom_0.mp4)
+*  [R Users Group Teams channel](https://teams.microsoft.com/l/team/19%3acc0d301f0686423f88a595c8ebd899b2%40thread.tacv2/conversations?groupId=8074c01e-f54d-4ac9-83c3-2151fe9ff857&tenantId=592e9ca1-4644-417e-b22f-1cb35d574dad)
+
 <br>
 <br>
 <br>
