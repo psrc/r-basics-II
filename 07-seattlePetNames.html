@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="pandoc">
+    <title>PSRC 2020 R workshop: Seattle Pet Names</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body class="lesson">
+    <div class="container card">
+      <article>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+                    <h1 class="title">Seattle Pet Names</h1>
+          <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#Seattle Pet Names</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#12/15/2020</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#At the beginning of the project, usually you load the libraries you are planning to use</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#install.packages(&quot;Package Name&quot;)</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#library(Package Name)</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#Where does our analysis Live?</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#need to check working directory</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">getwd</span>()</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co"># Set working directory to your desired directory</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#Example of how to change directory: setwd(&quot;C:/Users/pbutrina/Documents/&quot;)</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#download Pets name data</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co"># uploading locally stored data as .csv file</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">seattle_pet_data  &lt;-<span class="st">  </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/Seattle_Pet_Licenses.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">#let&#39;s look at the data - create a summary</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="kw">summary</span>(seattle_pet_data)</a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="kw">str</span>(seattle_pet_data)</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="kw">dim</span>(seattle_pet_data)</a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="kw">head</span>(seattle_pet_data)</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="kw">names</span>(seattle_pet_data)</a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#Let&#39;s find out how many species we have in our data by</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#summarizing categories within Species column</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb1-33" data-line-number="33"><span class="kw">table</span>(seattle_pet_data<span class="op">$</span>Species)</a>
+<a class="sourceLine" id="cb1-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35"><span class="co">#Today we will try to answer the following questions:</span></a>
+<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="co"># 1. What is the frequency of pet registrations per year?</span></a>
+<a class="sourceLine" id="cb1-37" data-line-number="37"><span class="co"># 2. What is the most popular dog and cat name?</span></a>
+<a class="sourceLine" id="cb1-38" data-line-number="38"><span class="co"># 3. What zip codes have the biggest number of pets per capita?</span></a>
+<a class="sourceLine" id="cb1-39" data-line-number="39"></a>
+<a class="sourceLine" id="cb1-40" data-line-number="40"><span class="co"># 1. What is the frequency of pet registrations per year? ----------------------</span></a>
+<a class="sourceLine" id="cb1-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="co">#change a data format to be able to work with it</span></a>
+<a class="sourceLine" id="cb1-43" data-line-number="43">seattle_pet_data<span class="op">$</span>License.Issue.Date  &lt;-<span class="st">  </span><span class="kw">as.Date</span>((seattle_pet_data<span class="op">$</span>License.Issue.Date),<span class="dt">format=</span> <span class="st">&#39;%B %d %Y&#39;</span>)</a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb1-45" data-line-number="45"><span class="co">#Frequency of per registration per year - were there more per registration in 2020 comparing with other years? Can do a freq graph</span></a>
+<a class="sourceLine" id="cb1-46" data-line-number="46">seattle_pet_data<span class="op">$</span>year  &lt;-<span class="st">  </span><span class="kw">format</span>(seattle_pet_data<span class="op">$</span>License.Issue.Date, <span class="st">&quot;%Y&quot;</span>)</a>
+<a class="sourceLine" id="cb1-47" data-line-number="47">year_freq  &lt;-<span class="st">  </span><span class="kw">table</span>(seattle_pet_data<span class="op">$</span>year)</a>
+<a class="sourceLine" id="cb1-48" data-line-number="48">year_freq &lt;-<span class="st"> </span>year_freq[<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb1-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb1-50" data-line-number="50"><span class="kw">barplot</span>(year_freq, <span class="dt">main =</span> <span class="st">&quot;Number of Pet registrations in Seattle by year&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Number of Registrations&quot;</span>,</a>
+<a class="sourceLine" id="cb1-51" data-line-number="51">        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">25000</span>))</a>
+<a class="sourceLine" id="cb1-52" data-line-number="52"></a>
+<a class="sourceLine" id="cb1-53" data-line-number="53"></a>
+<a class="sourceLine" id="cb1-54" data-line-number="54"><span class="kw">table</span>(seattle_pet_data<span class="op">$</span>year,seattle_pet_data<span class="op">$</span>Species)</a>
+<a class="sourceLine" id="cb1-55" data-line-number="55"><span class="kw">write.csv</span>(<span class="kw">table</span>(seattle_pet_data<span class="op">$</span>year,seattle_pet_data<span class="op">$</span>Species))</a>
+<a class="sourceLine" id="cb1-56" data-line-number="56"></a>
+<a class="sourceLine" id="cb1-57" data-line-number="57"><span class="co"># 2. What is the most popular dog and cat name? ----------------------</span></a>
+<a class="sourceLine" id="cb1-58" data-line-number="58"></a>
+<a class="sourceLine" id="cb1-59" data-line-number="59"><span class="co">#Pet Names</span></a>
+<a class="sourceLine" id="cb1-60" data-line-number="60"><span class="co">#Subset data table</span></a>
+<a class="sourceLine" id="cb1-61" data-line-number="61"><span class="co"># you can find your pet here!</span></a>
+<a class="sourceLine" id="cb1-62" data-line-number="62">seattle_pet_data[<span class="kw">which</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name <span class="op">==</span><span class="st"> &quot;Brynza&quot;</span>),] </a>
+<a class="sourceLine" id="cb1-63" data-line-number="63"></a>
+<a class="sourceLine" id="cb1-64" data-line-number="64"><span class="co">#multiple categories</span></a>
+<a class="sourceLine" id="cb1-65" data-line-number="65">seattle_pet_data[<span class="kw">which</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name <span class="op">==</span><span class="st"> &quot;Jack&quot;</span><span class="op">&amp;</span><span class="st"> </span>seattle_pet_data<span class="op">$</span>ZIP.Code <span class="op">==</span><span class="st"> &quot;98109&quot;</span>),] </a>
+<a class="sourceLine" id="cb1-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb1-67" data-line-number="67"><span class="kw">subset</span>(seattle_pet_data, Animal.s.Name <span class="op">==</span><span class="st"> &quot;Jasper&quot;</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;Golden&quot;</span>, Primary.Breed))</a>
+<a class="sourceLine" id="cb1-68" data-line-number="68"></a>
+<a class="sourceLine" id="cb1-69" data-line-number="69"><span class="co">#the most popular dog name, cat name, species?</span></a>
+<a class="sourceLine" id="cb1-70" data-line-number="70"></a>
+<a class="sourceLine" id="cb1-71" data-line-number="71"><span class="co">#let&#39;s separate Dogs and Cats</span></a>
+<a class="sourceLine" id="cb1-72" data-line-number="72">seattle_dogs  &lt;-<span class="st">  </span>seattle_pet_data[<span class="kw">which</span>(seattle_pet_data<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;Dog&quot;</span>),] </a>
+<a class="sourceLine" id="cb1-73" data-line-number="73"><span class="kw">dim</span>(seattle_dogs)</a>
+<a class="sourceLine" id="cb1-74" data-line-number="74"></a>
+<a class="sourceLine" id="cb1-75" data-line-number="75">seattle_cats  &lt;-<span class="st">  </span>seattle_pet_data[<span class="kw">which</span>(seattle_pet_data<span class="op">$</span>Species <span class="op">==</span><span class="st"> &quot;Cat&quot;</span>),]</a>
+<a class="sourceLine" id="cb1-76" data-line-number="76"><span class="kw">dim</span>(seattle_cats)</a>
+<a class="sourceLine" id="cb1-77" data-line-number="77"></a>
+<a class="sourceLine" id="cb1-78" data-line-number="78"><span class="co">#dog names</span></a>
+<a class="sourceLine" id="cb1-79" data-line-number="79"><span class="kw">sort</span>(<span class="kw">table</span>(seattle_dogs<span class="op">$</span>Animal.s.Name),<span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb1-80" data-line-number="80"></a>
+<a class="sourceLine" id="cb1-81" data-line-number="81"><span class="co">#cat names</span></a>
+<a class="sourceLine" id="cb1-82" data-line-number="82"><span class="kw">sort</span>(<span class="kw">table</span>(seattle_cats<span class="op">$</span>Animal.s.Name),<span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb1-83" data-line-number="83"></a>
+<a class="sourceLine" id="cb1-84" data-line-number="84"><span class="co">#3. What zip codes have the biggest number of pets per capita? -----------------</span></a>
+<a class="sourceLine" id="cb1-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb1-86" data-line-number="86"><span class="co">#zip code with the most number of pets per capita - need to join population in each zipcode with pet names table</span></a>
+<a class="sourceLine" id="cb1-87" data-line-number="87"><span class="co">#link to the original data https://www.ofm.wa.gov/washington-data-research/population-demographics/population-estimates/small-area-estimates-program</span></a>
+<a class="sourceLine" id="cb1-88" data-line-number="88">population  &lt;-<span class="st">  </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/OFM_Population_data.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-89" data-line-number="89"><span class="kw">str</span>(population)</a>
+<a class="sourceLine" id="cb1-90" data-line-number="90"></a>
+<a class="sourceLine" id="cb1-91" data-line-number="91"><span class="co">#need to transform population to integer data type and remove &quot;,&quot; from the population numbers</span></a>
+<a class="sourceLine" id="cb1-92" data-line-number="92">population<span class="op">$</span>Estimated.Total.Population<span class="fl">.2020</span> &lt;-<span class="st"> </span><span class="kw">as.integer</span>(<span class="kw">gsub</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;&quot;</span>,population<span class="op">$</span>Estimated.Total.Population<span class="fl">.2020</span>))</a>
+<a class="sourceLine" id="cb1-93" data-line-number="93"></a>
+<a class="sourceLine" id="cb1-94" data-line-number="94"><span class="co">#group by pet licenses by the zip code</span></a>
+<a class="sourceLine" id="cb1-95" data-line-number="95">licenses_by_zipcode &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">table</span>(seattle_pet_data<span class="op">$</span>ZIP.Code))</a>
+<a class="sourceLine" id="cb1-96" data-line-number="96"></a>
+<a class="sourceLine" id="cb1-97" data-line-number="97"><span class="co">#rename zipcode column</span></a>
+<a class="sourceLine" id="cb1-98" data-line-number="98"><span class="kw">colnames</span>(licenses_by_zipcode)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;zipcode&quot;</span></a>
+<a class="sourceLine" id="cb1-99" data-line-number="99"><span class="kw">colnames</span>(licenses_by_zipcode)[<span class="dv">2</span>] &lt;-<span class="st"> &quot;number_of_pets&quot;</span></a>
+<a class="sourceLine" id="cb1-100" data-line-number="100"></a>
+<a class="sourceLine" id="cb1-101" data-line-number="101"><span class="co">#rename columns in population table</span></a>
+<a class="sourceLine" id="cb1-102" data-line-number="102"><span class="kw">names</span>(population)[<span class="kw">names</span>(population) <span class="op">==</span><span class="st"> &quot;ZIP.Code.Tabulation.Area..5.Digit.&quot;</span>] &lt;-<span class="st"> &quot;zipcode&quot;</span></a>
+<a class="sourceLine" id="cb1-103" data-line-number="103"><span class="kw">names</span>(population)[<span class="kw">names</span>(population) <span class="op">==</span><span class="st"> &quot;Estimated.Total.Population.2020&quot;</span>] &lt;-<span class="st"> &quot;population&quot;</span></a>
+<a class="sourceLine" id="cb1-104" data-line-number="104"></a>
+<a class="sourceLine" id="cb1-105" data-line-number="105"><span class="co">#checking data types</span></a>
+<a class="sourceLine" id="cb1-106" data-line-number="106"><span class="kw">str</span>(population)</a>
+<a class="sourceLine" id="cb1-107" data-line-number="107"><span class="kw">str</span>(licenses_by_zipcode)</a>
+<a class="sourceLine" id="cb1-108" data-line-number="108"></a>
+<a class="sourceLine" id="cb1-109" data-line-number="109"><span class="co">#transforming factor (zipcode column) in license table to character</span></a>
+<a class="sourceLine" id="cb1-110" data-line-number="110">licenses_by_zipcode<span class="op">$</span>zipcode &lt;-<span class="st"> </span><span class="kw">as.character</span>(licenses_by_zipcode<span class="op">$</span>zipcode)</a>
+<a class="sourceLine" id="cb1-111" data-line-number="111">population<span class="op">$</span>zipcode &lt;-<span class="st"> </span><span class="kw">as.character</span>(population<span class="op">$</span>zipcode)</a>
+<a class="sourceLine" id="cb1-112" data-line-number="112"></a>
+<a class="sourceLine" id="cb1-113" data-line-number="113"><span class="co">#checking the zipcode data</span></a>
+<a class="sourceLine" id="cb1-114" data-line-number="114"></a>
+<a class="sourceLine" id="cb1-115" data-line-number="115"><span class="co">#merge population and pet licenses</span></a>
+<a class="sourceLine" id="cb1-116" data-line-number="116">pets_and_population &lt;-<span class="st"> </span><span class="kw">merge</span>(licenses_by_zipcode, population, <span class="dt">by =</span> <span class="st">&quot;zipcode&quot;</span>)</a>
+<a class="sourceLine" id="cb1-117" data-line-number="117"></a>
+<a class="sourceLine" id="cb1-118" data-line-number="118"><span class="kw">str</span>(pets_and_population)</a>
+<a class="sourceLine" id="cb1-119" data-line-number="119"></a>
+<a class="sourceLine" id="cb1-120" data-line-number="120">pets_and_population<span class="op">$</span>pets_per_capita &lt;-<span class="st"> </span><span class="kw">as.double</span>(pets_and_population<span class="op">$</span>number_of_pets<span class="op">/</span>pets_and_population<span class="op">$</span>population) </a>
+<a class="sourceLine" id="cb1-121" data-line-number="121"><span class="kw">options</span>(<span class="dt">scipen=</span><span class="dv">999</span>)</a>
+<a class="sourceLine" id="cb1-122" data-line-number="122"></a>
+<a class="sourceLine" id="cb1-123" data-line-number="123"><span class="co">#share of pets of total population in the zip code</span></a>
+<a class="sourceLine" id="cb1-124" data-line-number="124">pets_and_population<span class="op">$</span>pets_share &lt;-<span class="st"> </span><span class="kw">as.double</span>(pets_and_population<span class="op">$</span>number_of_pets<span class="op">/</span>pets_and_population<span class="op">$</span>population)<span class="op">*</span><span class="dv">100</span> </a>
+<a class="sourceLine" id="cb1-125" data-line-number="125"></a>
+<a class="sourceLine" id="cb1-126" data-line-number="126"></a>
+<a class="sourceLine" id="cb1-127" data-line-number="127"><span class="co">#Working with strings</span></a>
+<a class="sourceLine" id="cb1-128" data-line-number="128"><span class="co">#Checking pandemic-related names</span></a>
+<a class="sourceLine" id="cb1-129" data-line-number="129"></a>
+<a class="sourceLine" id="cb1-130" data-line-number="130"><span class="kw">unique</span>(<span class="kw">subset</span>(seattle_pet_data, <span class="kw">startsWith</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name, <span class="st">&quot;Cov&quot;</span>))<span class="op">$</span>Animal.s.Name)</a>
+<a class="sourceLine" id="cb1-131" data-line-number="131"></a>
+<a class="sourceLine" id="cb1-132" data-line-number="132"><span class="kw">unique</span>(<span class="kw">subset</span>(seattle_pet_data, <span class="kw">endsWith</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name, <span class="st">&quot;rona&quot;</span>))<span class="op">$</span>Animal.s.Name)</a>
+<a class="sourceLine" id="cb1-133" data-line-number="133"></a>
+<a class="sourceLine" id="cb1-134" data-line-number="134"><span class="co">#the longest name</span></a>
+<a class="sourceLine" id="cb1-135" data-line-number="135"><span class="kw">max</span>(<span class="kw">nchar</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name))</a>
+<a class="sourceLine" id="cb1-136" data-line-number="136"><span class="kw">subset</span>(seattle_pet_data, <span class="kw">nchar</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name)<span class="op">==</span><span class="dv">55</span>)<span class="op">$</span>Animal.s.Name</a>
+<a class="sourceLine" id="cb1-137" data-line-number="137"></a>
+<a class="sourceLine" id="cb1-138" data-line-number="138"><span class="co">#let&#39;s look at the top-10 longest pat names in our dataset</span></a>
+<a class="sourceLine" id="cb1-139" data-line-number="139">longest_name_length &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">nchar</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name),<span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a>
+<a class="sourceLine" id="cb1-140" data-line-number="140"></a>
+<a class="sourceLine" id="cb1-141" data-line-number="141"><span class="kw">subset</span>(seattle_pet_data, <span class="kw">nchar</span>(seattle_pet_data<span class="op">$</span>Animal.s.Name) <span class="op">%in%</span><span class="st"> </span>longest_name_length)<span class="op">$</span>Animal.s.Name</a></code></pre></div>
+<p><br> <br> <br></p>
+        </div>
+      </div>
+      </article>
+    </div>
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="http://software-carpentry.org/v5/js/jquery-1.9.1.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+  </body>
+</html>
