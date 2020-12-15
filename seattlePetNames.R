@@ -59,20 +59,24 @@ write.csv(table(seattle_pet_data$year,seattle_pet_data$Species))
 #Pet Names
 #Subset data table
 # you can find your pet here!
-seattle_pet_data[which(seattle_pet_data$Animal.s.Name == "Brynza"),] 
+#one way of subsetting
+seattle_pet_data[seattle_pet_data$Animal.s.Name == "Brynza",] 
+
+#the second way of subsetting
+subset(seattle_pet_data, Animal.s.Name == "Brynza")
 
 #multiple categories
-seattle_pet_data[which(seattle_pet_data$Animal.s.Name == "Jack"& seattle_pet_data$ZIP.Code == "98109"),] 
+seattle_pet_data[(seattle_pet_data$Animal.s.Name == "Jack"& seattle_pet_data$ZIP.Code == "98109"),] 
 
-subset(seattle_pet_data, Animal.s.Name == "Jasper" & grepl("Golden", Primary.Breed))
+subset(seattle_pet_data, Animal.s.Name == "Jasper" & grepl("Retr", Primary.Breed) & ZIP.Code == "98105")
 
 #the most popular dog name, cat name, species?
 
 #let's separate Dogs and Cats
-seattle_dogs  <-  seattle_pet_data[which(seattle_pet_data$Species == "Dog"),] 
+seattle_dogs  <-  seattle_pet_data[seattle_pet_data$Species == "Dog",] 
 dim(seattle_dogs)
 
-seattle_cats  <-  seattle_pet_data[which(seattle_pet_data$Species == "Cat"),]
+seattle_cats  <-  seattle_pet_data[seattle_pet_data$Species == "Cat",]
 dim(seattle_cats)
 
 #dog names
@@ -132,8 +136,8 @@ unique(subset(seattle_pet_data, startsWith(seattle_pet_data$Animal.s.Name, "Cov"
 unique(subset(seattle_pet_data, endsWith(seattle_pet_data$Animal.s.Name, "rona"))$Animal.s.Name)
 
 #the longest name
-max(nchar(seattle_pet_data$Animal.s.Name))
-subset(seattle_pet_data, nchar(seattle_pet_data$Animal.s.Name)==55)$Animal.s.Name
+longest_char = max(nchar(seattle_pet_data$Animal.s.Name))
+subset(seattle_pet_data, nchar(seattle_pet_data$Animal.s.Name)==longest_char)$Animal.s.Name
 
 #let's look at the top-10 longest pat names in our dataset
 longest_name_length <- sort(nchar(seattle_pet_data$Animal.s.Name),decreasing=TRUE)[1:10]
