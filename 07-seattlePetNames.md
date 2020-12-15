@@ -93,6 +93,7 @@ sort(table(seattle_dogs$Animal.s.Name),decreasing=TRUE)[1:10]
 #cat names
 sort(table(seattle_cats$Animal.s.Name),decreasing=TRUE)[1:10]
 
+
 #3. What zip codes have the biggest number of pets per capita? -----------------
 
 #zip code with the most number of pets per capita - need to join population in each zipcode with pet names table
