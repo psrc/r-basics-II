@@ -32,6 +32,7 @@ Assistents: Christy Lam, Suzanne Childress, Craig Helmann
 4. [Control flow](04-control-flow.html)
 5. [Installing packages](05-packages.html)
 6. [Homework](06-home-work.html)
+7. [Analyzing Pet Names in Seattle](seattlePetNames.R)
 
 ## Other Resources
 
