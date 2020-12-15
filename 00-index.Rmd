@@ -44,6 +44,10 @@ Assistents: Christy Lam, Suzanne Childress, Craig Helmann
 
 <br>
 <br>
+[Back to all modules](../r-basics-I/index.html)
+
+<br>
+<br>
 <br>
 <br>
 <br>
