@@ -71,3 +71,5 @@ hhgr <- add.growth.rate(hh, "hh2020", "hh2030")
 > Prepare for the next module by installing the required packages:
 > `tidyverse`, `openxlsx`, `scales`, `plotly`, `reshape2`, `lubridate`, `htmlwidgets`
 >
+
+![](img/monster_support.jpg)

@@ -57,3 +57,5 @@ subtitle: Homework
 > Prepare for the next module by installing the required packages:
 > `tidyverse`, `openxlsx`, `scales`, `plotly`, `reshape2`, `lubridate`, `htmlwidgets`
 >
+
+![](img/monster_support.jpg)
