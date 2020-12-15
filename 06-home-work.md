@@ -54,5 +54,6 @@ subtitle: Homework
 
 > ## Challenge 3 {.challenge}
 >
-> Install the following packages: `ggplot2`, `dplyr`, `data.table`
+> Prepare for the next module by installing the required packages:
+> `tidyverse`, `openxlsx`, `scales`, `plotly`, `reshape2`, `lubridate`, `htmlwidgets`
 >
